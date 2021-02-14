@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package calculator;
+option go_package="calcpb";
+
+message NumsToAdd {
+    int32 first_num = 1;
+    int32 second_num = 2;
+}
+
+// Request message
+message SumRequest {
+    NumsToAdd input = 1;
+}
+
+// Response message
+message SumResponse {
+    int32 total = 1;
+}
+
+service CalcService{
+    // Unary API
+    // Create an rpc that takes a AddUp and returns a SumResponse
+    rpc Calc(SumRequest) returns (SumResponse) {};
+}
