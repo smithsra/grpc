@@ -12,8 +12,8 @@ import (
 
 type server struct{}
 
-func (*server) Calc(ctx context.Context, req *calcpb.SumRequest) (*calcpb.SumResponse, error) {
-	fmt.Printf("Greet function was invoked with %v\n", req)
+func (*server) Sum(ctx context.Context, req *calcpb.SumRequest) (*calcpb.SumResponse, error) {
+	fmt.Printf("Sum function was invoked with %v\n", req)
 	firstNum := req.GetInput().GetFirstNum()
 	secondNum := req.GetInput().GetSecondNum()
 	total := firstNum + secondNum
@@ -24,7 +24,7 @@ func (*server) Calc(ctx context.Context, req *calcpb.SumRequest) (*calcpb.SumRes
 }
 
 func main() {
-	fmt.Println("Hello world")
+	fmt.Println("Calculator Service")
 
 	lis, err := net.Listen("tcp", "0.0.0.0:50051")
 	if err != nil {

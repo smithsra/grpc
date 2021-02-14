@@ -172,11 +172,11 @@ var fileDescriptor_cfc74e58bc0fa04b = []byte{
 	0x4a, 0x96, 0x5c, 0x5c, 0xc1, 0xa5, 0xb9, 0x41, 0xa9, 0x85, 0xa5, 0xa9, 0xc5, 0x25, 0x42, 0xda,
 	0x5c, 0xac, 0x99, 0x79, 0x05, 0xa5, 0x25, 0x60, 0x53, 0xb8, 0x8d, 0x44, 0xf5, 0x10, 0x56, 0xea,
 	0xc1, 0xed, 0x0b, 0x82, 0xa8, 0x51, 0x52, 0xe6, 0xe2, 0x06, 0x6b, 0x2d, 0x2e, 0xc8, 0xcf, 0x2b,
-	0x4e, 0x15, 0x12, 0xe1, 0x62, 0x2d, 0xc9, 0x2f, 0x49, 0xcc, 0x81, 0xba, 0x00, 0xc2, 0x31, 0xf2,
-	0xe0, 0xe2, 0x76, 0x06, 0x9a, 0x11, 0x9c, 0x5a, 0x54, 0x96, 0x99, 0x9c, 0x2a, 0x64, 0xc9, 0xc5,
-	0x02, 0xe2, 0x0a, 0x89, 0x21, 0x9b, 0x8c, 0x70, 0x80, 0x94, 0x38, 0x86, 0x38, 0xc4, 0x74, 0x25,
-	0x06, 0x27, 0x8e, 0x28, 0x36, 0x48, 0x98, 0x24, 0xb1, 0x81, 0xc3, 0xc3, 0x18, 0x10, 0x00, 0x00,
-	0xff, 0xff, 0x2a, 0xbf, 0x82, 0xe6, 0x2f, 0x01, 0x00, 0x00,
+	0x4e, 0x15, 0x12, 0xe1, 0x62, 0x2d, 0xc9, 0x2f, 0x49, 0xcc, 0x81, 0xba, 0x00, 0xc2, 0x31, 0x72,
+	0xe7, 0xe2, 0x76, 0x06, 0x9a, 0x11, 0x9c, 0x5a, 0x54, 0x96, 0x99, 0x9c, 0x2a, 0x64, 0xc1, 0xc5,
+	0x0c, 0xd4, 0x23, 0x24, 0x86, 0x6c, 0x30, 0xc2, 0x7e, 0x29, 0x71, 0x0c, 0x71, 0x88, 0xe1, 0x4a,
+	0x0c, 0x4e, 0x1c, 0x51, 0x6c, 0x90, 0x20, 0x49, 0x62, 0x03, 0x07, 0x87, 0x31, 0x20, 0x00, 0x00,
+	0xff, 0xff, 0x07, 0x79, 0xa2, 0x47, 0x2e, 0x01, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -193,7 +193,7 @@ const _ = grpc.SupportPackageIsVersion6
 type CalcServiceClient interface {
 	// Unary API
 	// Create an rpc that takes a AddUp and returns a SumResponse
-	Calc(ctx context.Context, in *SumRequest, opts ...grpc.CallOption) (*SumResponse, error)
+	Sum(ctx context.Context, in *SumRequest, opts ...grpc.CallOption) (*SumResponse, error)
 }
 
 type calcServiceClient struct {
@@ -204,9 +204,9 @@ func NewCalcServiceClient(cc grpc.ClientConnInterface) CalcServiceClient {
 	return &calcServiceClient{cc}
 }
 
-func (c *calcServiceClient) Calc(ctx context.Context, in *SumRequest, opts ...grpc.CallOption) (*SumResponse, error) {
+func (c *calcServiceClient) Sum(ctx context.Context, in *SumRequest, opts ...grpc.CallOption) (*SumResponse, error) {
 	out := new(SumResponse)
-	err := c.cc.Invoke(ctx, "/calculator.CalcService/Calc", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/calculator.CalcService/Sum", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -217,35 +217,35 @@ func (c *calcServiceClient) Calc(ctx context.Context, in *SumRequest, opts ...gr
 type CalcServiceServer interface {
 	// Unary API
 	// Create an rpc that takes a AddUp and returns a SumResponse
-	Calc(context.Context, *SumRequest) (*SumResponse, error)
+	Sum(context.Context, *SumRequest) (*SumResponse, error)
 }
 
 // UnimplementedCalcServiceServer can be embedded to have forward compatible implementations.
 type UnimplementedCalcServiceServer struct {
 }
 
-func (*UnimplementedCalcServiceServer) Calc(ctx context.Context, req *SumRequest) (*SumResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Calc not implemented")
+func (*UnimplementedCalcServiceServer) Sum(ctx context.Context, req *SumRequest) (*SumResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Sum not implemented")
 }
 
 func RegisterCalcServiceServer(s *grpc.Server, srv CalcServiceServer) {
 	s.RegisterService(&_CalcService_serviceDesc, srv)
 }
 
-func _CalcService_Calc_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _CalcService_Sum_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SumRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CalcServiceServer).Calc(ctx, in)
+		return srv.(CalcServiceServer).Sum(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/calculator.CalcService/Calc",
+		FullMethod: "/calculator.CalcService/Sum",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CalcServiceServer).Calc(ctx, req.(*SumRequest))
+		return srv.(CalcServiceServer).Sum(ctx, req.(*SumRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -255,8 +255,8 @@ var _CalcService_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*CalcServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Calc",
-			Handler:    _CalcService_Calc_Handler,
+			MethodName: "Sum",
+			Handler:    _CalcService_Sum_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

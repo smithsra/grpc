@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	fmt.Println("Hello im a client")
+	fmt.Println("Hello im a calculator client")
 
 	cc, err := grpc.Dial("localhost:50051", grpc.WithInsecure())
 	if err != nil {
@@ -26,16 +26,16 @@ func main() {
 }
 
 func doUnary(c calcpb.CalcServiceClient) {
-	fmt.Println("Starting to do a Unary rpc")
+	fmt.Println("Starting to do a sum Unary rpc")
 	req := &calcpb.SumRequest{
 		Input: &calcpb.NumsToAdd{
 			FirstNum:  10,
 			SecondNum: 3,
 		},
 	}
-	res, err := c.Calc(context.Background(), req)
+	res, err := c.Sum(context.Background(), req)
 	if err != nil {
-		log.Fatalf("Error while calling greet rpc: %v", err)
+		log.Fatalf("Error while calling sum rpc: %v", err)
 	}
-	log.Printf("response from Greet: %v", res.Total)
+	log.Printf("response from Sum: %v", res.Total)
 }

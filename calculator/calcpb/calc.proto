@@ -21,5 +21,5 @@ message SumResponse {
 service CalcService{
     // Unary API
     // Create an rpc that takes a AddUp and returns a SumResponse
-    rpc Calc(SumRequest) returns (SumResponse) {};
+    rpc Sum(SumRequest) returns (SumResponse) {};
 }
